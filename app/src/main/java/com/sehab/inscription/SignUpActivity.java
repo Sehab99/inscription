@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -31,8 +30,8 @@ public class SignUpActivity extends AppCompatActivity {
     private Button buttonToLogin;
     private FirebaseAuth firebaseAuth;
     FirebaseDatabase firebaseDatabase;
-    DatabaseReference user;
-    HashMap<String, Object> userDit;
+    DatabaseReference databaseReference;
+    HashMap<String, Object> userData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +48,8 @@ public class SignUpActivity extends AppCompatActivity {
         buttonToLogin = findViewById(R.id.buttonToLogin);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        user = firebaseDatabase.getReference().child("Users");
-        userDit = new HashMap<>();
+        databaseReference = firebaseDatabase.getReference().child("Users");
+        userData = new HashMap<>();
 
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,11 +69,10 @@ public class SignUpActivity extends AppCompatActivity {
                 } else if(!password.equals(conformPassword)) {
                     Toast.makeText(SignUpActivity.this, "Password mismatch", Toast.LENGTH_SHORT).show();
                 } else {
-                    userDit.put("Email", email);
-                    userDit.put("Name", fullName);
-                    userDit.put("Reg ID", regID);
+                    userData.put("Email", email);
+                    userData.put("Name", fullName);
+                    userData.put("Reg ID", regID);
                     signUpUser(email, password);
-                    //Store in firebase
                 }
             }
         });
@@ -93,12 +91,14 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    String uid = task.getResult().getUser().getUid();
-                    user.child(uid).updateChildren(userDit).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    String userID = task.getResult().getUser().getUid();
+                    databaseReference.child(userID).updateChildren(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> t) {
                             if(t.isSuccessful()) {
                                 Toast.makeText(SignUpActivity.this, "SignUp completed", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                                finish();
                             } else {
                                 Toast.makeText(SignUpActivity.this, "SignUp failed", Toast.LENGTH_SHORT).show();
                             }
