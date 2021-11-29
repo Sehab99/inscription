@@ -5,14 +5,14 @@ public class Classroom {
     private String subjectName;
     private String teacherName;
 
-    public Classroom() {
-
-    }
-
     public Classroom(String className, String subjectName, String teacherName) {
         this.className = className;
         this.subjectName = subjectName;
         this.teacherName = teacherName;
+    }
+
+    public Classroom() {
+
     }
 
     public String getClassName() {
