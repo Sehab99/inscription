@@ -15,8 +15,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -33,8 +36,8 @@ public class AddClassroom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_classroom);
 
-        textInputClassName = findViewById(R.id.textSubjectName);
-        textInputSubjectName = findViewById(R.id.textClassName);
+        textInputClassName = findViewById(R.id.textClassName);
+        textInputSubjectName = findViewById(R.id.textSubjectName);
         buttonAdd = findViewById(R.id.buttonAddClassroom);
         newClass = new HashMap<>();
         auth = FirebaseAuth.getInstance();
@@ -46,24 +49,33 @@ public class AddClassroom extends AppCompatActivity {
                 String uID = auth.getUid();
                 String className = textInputClassName.getEditText().getText().toString();
                 String subjectName = textInputSubjectName.getEditText().getText().toString();
-                String teacherName = mBase.child("Users").child(uID).child("Name").getValue().toString();
+                mBase.child("Users").child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String teacherName = snapshot.child("Name").getValue().toString();
+                        if(TextUtils.isEmpty(className) || TextUtils.isEmpty(subjectName)) {
+                            Toast.makeText(AddClassroom.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            newClass.put("className", className);
+                            newClass.put("subjectName", subjectName);
+                            newClass.put("teacherName", teacherName);
+                            addClassroom();
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                if(TextUtils.isEmpty(className) || TextUtils.isEmpty(subjectName)) {
-                    Toast.makeText(AddClassroom.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
-                } else {
-                    newClass.put("className", className);
-                    newClass.put("subjectName", subjectName);
-                    newClass.put("teacherName", teacherName);
-                    addClassroom();
-                }
+                    }
+                });
             }
         });
 
     }
 
     private void addClassroom() {
+
         DatabaseReference classID = mBase.push();
-        String classroomID = classID.toString();
+        String classroomID = classID.getKey();
         mBase.child("Classrooms").child(classroomID).updateChildren(newClass).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

@@ -5,7 +5,8 @@
     android:layout_marginTop="10dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:elevation="6dp">
     
     <RelativeLayout
         android:id="@+id/classroomCard"
