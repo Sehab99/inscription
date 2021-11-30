@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference mBase;
     ClassroomAdapter classroomAdapter;
     ArrayList<Classroom> classroomList;
+    TextView emptyClassroom;
 
     public MainActivity() {
 
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mBase = FirebaseDatabase.getInstance().getReference("Classrooms");
         mBase.keepSynced(true);
         contentRecycler = (RecyclerView)findViewById(R.id.contentRecycler);
+        emptyClassroom = findViewById(R.id.emptyClassroom);
 
         contentRecycler.setHasFixedSize(true);
         contentRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -51,12 +54,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 classroomList = new ArrayList<>();
+                if(snapshot.getChildrenCount() <= 0) {
+                    emptyClassroom.setVisibility(View.VISIBLE);
+                } else {
+                    emptyClassroom.setVisibility(View.GONE);
+                }
+
 
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Classroom classroom = dataSnapshot.getValue(Classroom.class);
                     classroomList.add(classroom);
                 }
-
                 classroomAdapter = new ClassroomAdapter(MainActivity.this,classroomList);
                 contentRecycler.setAdapter(classroomAdapter);
                 classroomAdapter.notifyDataSetChanged();
