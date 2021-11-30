@@ -7,14 +7,10 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="title_activity_about_us">about_us</string>
 
-
-    <string name="hyperlink1">Anwesha Chakaborty \nStudent At Pondicherry University \n<a href="https://learntodroid.com">LinkedIn</a></string>
-    <string name="hyperlink2">Purnima Agarwal \nStudent At Pondicherry University \n <a href="https://learntodroid.com">LinkedIn</a></string>
-    <string name="hyperlink3">Sk Sehabuddin \nStudent At Pondicherry University \n<a href="https://learntodroid.com">LinkedIn</a></string>
-    <string name="hyperlink4">Trisha Agarwal \nStudent At Pondicherry University \n<a href="https://learntodroid.com">LinkedIn</a></string>
+    <string name="hyperlink1">Anwesha Chakravarty \nStudent At Pondicherry University \n\n<a href="https://www.linkedin.com/in/anwesha-chakravarty-22064b20b/">LinkedIn</a></string>
+    <string name="hyperlink2">Purnima Agarwal \nStudent At Pondicherry University \n\n <a href="www.linkedin.com/in/purnima-agarwal-a864511b8">LinkedIn</a></string>
+    <string name="hyperlink3">Sk Sehabuddin \nStudent At Pondicherry University \n\n<a href="https://www.linkedin.com/in/sk-sehabuddin/">LinkedIn</a></string>
+    <string name="hyperlink4">Trisha Agarwal \nStudent At Pondicherry University \n\n<a href="https://www.linkedin.com/in/trisha-agarwal-7095a415b/">LinkedIn</a></string>
 
 </resources>

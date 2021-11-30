@@ -15,11 +15,12 @@
         android:background="@drawable/bg_about_us"
         android:text="Inscription is a real-time attendance register app."
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/textView4"
@@ -38,7 +39,7 @@
     <TextView
         android:id="@+id/textView5"
         android:layout_width="262dp"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="52dp"
         android:background="@drawable/bg_about_us"
         android:text="@string/hyperlink1"
@@ -51,7 +52,7 @@
     <TextView
         android:id="@+id/textView6"
         android:layout_width="262dp"
-        android:layout_height="74dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_about_us"
         android:text="@string/hyperlink2"
@@ -64,7 +65,7 @@
     <TextView
         android:id="@+id/textView7"
         android:layout_width="261dp"
-        android:layout_height="68dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:background="@drawable/bg_about_us"
         android:text="@string/hyperlink3"
@@ -77,7 +78,7 @@
     <TextView
         android:id="@+id/textView8"
         android:layout_width="262dp"
-        android:layout_height="67dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/bg_about_us"
         android:text="@string/hyperlink4"
