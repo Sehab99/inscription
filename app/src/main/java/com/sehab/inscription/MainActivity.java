@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.about:
-                Toast.makeText(MainActivity.this, "About", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, about_us.class));
                 break;
             case R.id.logOut:
                 FirebaseAuth.getInstance().signOut();
