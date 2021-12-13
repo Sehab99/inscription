@@ -1,6 +1,7 @@
 package com.sehab.inscription;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,12 +50,21 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.Clas
         TextView className;
         TextView subjectName;
         TextView teacherName;
-
+        public View view;
         public ClassroomViewHolder(@NonNull View itemView) {
             super(itemView);
             className = itemView.findViewById(R.id.className);
             subjectName = itemView.findViewById(R.id.subjectName);
             teacherName = itemView.findViewById(R.id.teacherName);
+
+            view = itemView;
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    view.getContext().startActivity(new Intent(view.getContext(), MainClass.class));
+                    //Toast.makeText(context.getApplicationContext(),"Hello Javatpoint",Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 }

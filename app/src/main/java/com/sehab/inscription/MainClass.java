@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,28 +24,28 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
-    FloatingActionButton add_class;
+public class MainClass extends AppCompatActivity {
+    FloatingActionButton add_topic;
     RecyclerView contentRecycler;
     DatabaseReference mBase;
-    ClassroomAdapter classroomAdapter;
-    ArrayList<Classroom> classroomList;
-    TextView emptyClassroom;
+    TopicAdapter topicAdapter;
+    ArrayList<Topic> classList;
+    TextView emptyTopics;
 
-    public MainActivity() {
+    public MainClass() {
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_class);
 
-        add_class = findViewById(R.id.add_class);
-        mBase = FirebaseDatabase.getInstance().getReference("Classrooms");
+        add_topic = findViewById(R.id.add_topic); // floating button
+        mBase = FirebaseDatabase.getInstance().getReference("Topics"); // firebase variable
         mBase.keepSynced(true);
         contentRecycler = (RecyclerView)findViewById(R.id.contentRecycler);
-        emptyClassroom = findViewById(R.id.emptyClassroom);
+        emptyTopics = findViewById(R.id.emptyTopics); // emptyClassroom id
 
         contentRecycler.setHasFixedSize(true);
         contentRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -57,21 +55,21 @@ public class MainActivity extends AppCompatActivity {
         mBase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                classroomList = new ArrayList<>();
+                classList = new ArrayList<>();
                 if(snapshot.getChildrenCount() <= 0) {
-                    emptyClassroom.setVisibility(View.VISIBLE);
+                    emptyTopics.setVisibility(View.VISIBLE);
                 } else {
-                    emptyClassroom.setVisibility(View.GONE);
+                    emptyTopics.setVisibility(View.GONE);
                 }
 
 
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Classroom classroom = dataSnapshot.getValue(Classroom.class);
-                    classroomList.add(classroom);
+                    Topic topic = dataSnapshot.getValue(Topic.class);
+                    classList.add(topic);
                 }
-                classroomAdapter = new ClassroomAdapter(MainActivity.this,classroomList);
-                contentRecycler.setAdapter(classroomAdapter);
-                classroomAdapter.notifyDataSetChanged();
+                topicAdapter = new TopicAdapter(MainClass.this,classList);
+                contentRecycler.setAdapter(topicAdapter);
+                topicAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -80,14 +78,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        add_class.setOnClickListener(new View.OnClickListener() {
+        add_topic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AddClassroom.class));
+                startActivity(new Intent(MainClass.this, AddTopic.class));
             }
         });
-
-
 
     }
 
@@ -96,26 +92,31 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
-//3 dot Menu on top right corner
+    //3 dot Menu on top right corner
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-//on click action on menu options(About and Logout)
+    //on click action on menu options(About and Logout)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.student_list:
+                startActivity(new Intent(MainClass.this, ClassStudentList.class));
+                break;
             case R.id.about:
-                startActivity(new Intent(MainActivity.this, about_us.class));
+                startActivity(new Intent(MainClass.this, about_us.class));
                 break;
             case R.id.logOut:
                 FirebaseAuth.getInstance().signOut();
-                Toast.makeText(MainActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                Toast.makeText(MainClass.this, "Logged out", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainClass.this, LoginActivity.class));
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
+
     }
 }

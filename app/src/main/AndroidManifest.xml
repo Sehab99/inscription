@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Inscription">
         <activity
+            android:name=".ClassStudentList"
+            android:exported="false" />
+        <activity
+            android:name=".AddTopic"
+            android:exported="false" />
+        <activity
+            android:name=".mainClass"
+            android:exported="false" />
+        <activity
             android:name=".AddClassroom"
             android:exported="false" />
         <activity
@@ -26,8 +35,10 @@
             android:exported="false" />
         <activity
             android:name=".about_us"
-            android:exported="false">
-        </activity>
+            android:exported="false" />
+        <activity
+            android:name=".MainClass"
+            android:exported="false" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
