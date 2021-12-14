@@ -23,36 +23,45 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
-public class MainClass extends AppCompatActivity {
+public class TopicMain extends AppCompatActivity {
     FloatingActionButton add_topic;
     RecyclerView contentRecycler;
     DatabaseReference mBase;
     TopicAdapter topicAdapter;
     ArrayList<Topic> classList;
     TextView emptyTopics;
+    TextView classroomKey;
 
-    public MainClass() {
+    String classKey;
+    //FirebaseAuth auth;
+    public TopicMain() {
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_class);
-
+        setContentView(R.layout.activity_topic_main);
         add_topic = findViewById(R.id.add_topic); // floating button
-        mBase = FirebaseDatabase.getInstance().getReference("Topics"); // firebase variable
+        classroomKey = findViewById(R.id.classroomKey);
+
+        classKey = getIntent().getExtras().getString("classKey");
+
+        classroomKey.setText(classKey);
+
+        mBase = FirebaseDatabase.getInstance().getReference().child("Classrooms").child(classKey).child("Topics");
         mBase.keepSynced(true);
         contentRecycler = (RecyclerView)findViewById(R.id.contentRecycler);
         emptyTopics = findViewById(R.id.emptyTopics); // emptyClassroom id
-
         contentRecycler.setHasFixedSize(true);
         contentRecycler.setLayoutManager(new LinearLayoutManager(this));
         contentRecycler.setItemAnimator(new DefaultItemAnimator());
 
 
-        mBase.addValueEventListener(new ValueEventListener() {
+        mBase.addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 classList = new ArrayList<>();
@@ -64,12 +73,18 @@ public class MainClass extends AppCompatActivity {
 
 
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Topic topic = dataSnapshot.getValue(Topic.class);
-                    classList.add(topic);
+                    String key = dataSnapshot.getKey();
+                    String topic = dataSnapshot.child("topicName").getValue().toString();
+                    String desc = dataSnapshot.child("topicDescription").getValue().toString();
+                    String date = dataSnapshot.child("date").getValue().toString();
+                    classList.add(new Topic(key,topic,desc,date));
                 }
-                topicAdapter = new TopicAdapter(MainClass.this,classList);
+                topicAdapter = new TopicAdapter(TopicMain.this,classList);
                 contentRecycler.setAdapter(topicAdapter);
                 topicAdapter.notifyDataSetChanged();
+
+
+               // Date currentTime = Calendar.getInstance().getTime();
             }
 
             @Override
@@ -81,7 +96,9 @@ public class MainClass extends AppCompatActivity {
         add_topic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainClass.this, AddTopic.class));
+                Intent intent = new Intent( TopicMain.this,AddTopic.class);
+                intent.putExtra("classKey", classKey);
+                startActivity(intent);
             }
         });
 
@@ -104,15 +121,15 @@ public class MainClass extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.student_list:
-                startActivity(new Intent(MainClass.this, ClassStudentList.class));
+                startActivity(new Intent(TopicMain.this, ClassStudentList.class));
                 break;
             case R.id.about:
-                startActivity(new Intent(MainClass.this, about_us.class));
+                startActivity(new Intent(TopicMain.this, about_us.class));
                 break;
             case R.id.logOut:
                 FirebaseAuth.getInstance().signOut();
-                Toast.makeText(MainClass.this, "Logged out", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainClass.this, LoginActivity.class));
+                Toast.makeText(TopicMain.this, "Logged out", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(TopicMain.this, LoginActivity.class));
                 finish();
                 break;
         }

@@ -26,7 +26,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ClassroomVie
     @NonNull
     @Override
     public ClassroomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.card_classroom,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.card_topic,parent,false);
         ClassroomViewHolder viewHolder = new ClassroomViewHolder(view);
         return viewHolder;
     }
@@ -35,7 +35,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ClassroomVie
     public void onBindViewHolder(@NonNull ClassroomViewHolder holder, int position) {
         Topic topic = topicArrayList.get(position);
         holder.TopicName.setText(topic.getTopicName());
-        holder.Description.setText(topic.getDescription());
+        holder.Description.setText(topic.getTopicDescription());
         holder.date.setText(topic.getDate());
     }
 
@@ -53,9 +53,9 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ClassroomVie
 
         public ClassroomViewHolder(@NonNull View itemView) {
             super(itemView);
-            TopicName = itemView.findViewById(R.id.className);
-            Description = itemView.findViewById(R.id.subjectName);
-            date = itemView.findViewById(R.id.teacherName);
+            TopicName = itemView.findViewById(R.id.topicName);
+            Description = itemView.findViewById(R.id.descName);
+            date = itemView.findViewById(R.id.date);
 
 
         }

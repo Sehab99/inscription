@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity {
     FloatingActionButton add_class;
@@ -66,9 +67,14 @@ public class MainActivity extends AppCompatActivity {
 
 
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Classroom classroom = dataSnapshot.getValue(Classroom.class);
-                    classroomList.add(classroom);
+                    //Classroom classroom = dataSnapshot.getValue(Classroom.class);
+                    String classKey = dataSnapshot.getKey();
+                    String className = dataSnapshot.child("className").getValue().toString();
+                    String subjectName = dataSnapshot.child("subjectName").getValue().toString();
+                    String teacherName = dataSnapshot.child("teacherName").getValue().toString();
+                    classroomList.add(new Classroom(className, subjectName, teacherName, classKey));
                 }
+                //Collections.sort(classroomList,Collections.reverseOrder());
                 classroomAdapter = new ClassroomAdapter(MainActivity.this,classroomList);
                 contentRecycler.setAdapter(classroomAdapter);
                 classroomAdapter.notifyDataSetChanged();

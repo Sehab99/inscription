@@ -14,11 +14,11 @@
         android:gravity="center">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textClassName"
+            android:id="@+id/textTopicName"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Class Name"
+            android:hint="Topic Name"
             android:layout_marginBottom="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -27,11 +27,11 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textSubjectName"
+            android:id="@+id/textDescription"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Subject Name"
+            android:hint="Description"
             android:layout_marginBottom="10dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -40,7 +40,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/buttonAddClassroom"
+            android:id="@+id/buttonAddTopic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add"
