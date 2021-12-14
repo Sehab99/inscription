@@ -75,7 +75,7 @@ public class TopicMain extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
                     String topic = dataSnapshot.child("topicName").getValue().toString();
-                    String desc = dataSnapshot.child("topicDescription").getValue().toString();
+                    String desc = dataSnapshot.child("code").getValue().toString();
                     String date = dataSnapshot.child("date").getValue().toString();
                     classList.add(new Topic(key,topic,desc,date));
                 }

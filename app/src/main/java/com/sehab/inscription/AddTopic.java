@@ -3,10 +3,8 @@ package com.sehab.inscription;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -25,28 +23,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 public class AddTopic extends AppCompatActivity {
-    private TextInputLayout textInputClassName;
-    private TextInputLayout textInputSubjectName;
+    private TextInputLayout topicName;
     private Button buttonAdd;
     FirebaseAuth auth;
     DatabaseReference mBase;
     HashMap<String, Object> newTopicL;
     String classKey;
+    Random random = new Random();
+    String code = String.format("%04d", random.nextInt(10000));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_classroom);
+        setContentView(R.layout.activity_add_topic);
 
         classKey = getIntent().getExtras().getString("classKey");
-
-        textInputClassName = findViewById(R.id.textClassName);
-        textInputSubjectName = findViewById(R.id.textSubjectName);
-        buttonAdd = findViewById(R.id.buttonAddClassroom);
+        topicName = findViewById(R.id.textTopicName);
+        buttonAdd = findViewById(R.id.buttonAddTopic);
         newTopicL = new HashMap<>();
         auth = FirebaseAuth.getInstance();
         mBase = FirebaseDatabase.getInstance().getReference();
@@ -55,19 +52,13 @@ public class AddTopic extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String uID = auth.getUid();
-                String TopicName = textInputClassName.getEditText().getText().toString();
-                String Description = textInputSubjectName.getEditText().getText().toString();
-//                for(final DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    if (snapshot.child("Product_Name").getValue(String.class).equals("Steak")){
-//                        String theKey = snapshot.getKey(); //This will return -LoUXnfUCEj4k4A3dkte
-//                    }
-//                }
+                String TopicName = topicName.getEditText().getText().toString();
+
+
                 mBase.child("Users").child(uID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String teacherName = snapshot.child("Name").getValue().toString();
-                     //   Date currentTime = Calendar.getInstance().getTime();
-                        if(TextUtils.isEmpty(TopicName) || TextUtils.isEmpty(Description)) {
+                        if(TextUtils.isEmpty(TopicName) || TextUtils.isEmpty(code)) {
                             Toast.makeText(AddTopic.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
                         } else {
 
@@ -78,17 +69,9 @@ public class AddTopic extends AppCompatActivity {
                             Toast.makeText(AddTopic.this, time, Toast.LENGTH_SHORT).show();
                             // dd-mm-yyyy 8:00 am
                             newTopicL.put("topicName", TopicName);
-                            newTopicL.put("topicDescription", Description);
+                            newTopicL.put("code", code);
                             newTopicL.put("date", time); //date
                             addtopic();
-
-                            /*
-                            Classroom
-                                - basic data
-                                - Topics
-                                       - basic Data
-                                       -
-                             */
                         }
                     }
                     @Override
