@@ -80,7 +80,7 @@ public class AddClassroom extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
-                    Toast.makeText(AddClassroom.this, "Classroom created", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddClassroom.this, classroomID, Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(AddClassroom.this, MainActivity.class));
                     finish();
                 } else {

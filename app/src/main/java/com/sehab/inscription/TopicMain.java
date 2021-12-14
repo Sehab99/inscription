@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,59 +23,68 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Calendar;
+import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
-    FloatingActionButton add_class;
+public class TopicMain extends AppCompatActivity {
+    FloatingActionButton add_topic;
     RecyclerView contentRecycler;
     DatabaseReference mBase;
-    ClassroomAdapter classroomAdapter;
-    ArrayList<Classroom> classroomList;
-    TextView emptyClassroom;
+    TopicAdapter topicAdapter;
+    ArrayList<Topic> classList;
+    TextView emptyTopics;
+    TextView classroomKey;
 
-    public MainActivity() {
+    String classKey;
+    //FirebaseAuth auth;
+    public TopicMain() {
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_topic_main);
+        add_topic = findViewById(R.id.add_topic); // floating button
+        classroomKey = findViewById(R.id.classroomKey);
 
-        add_class = findViewById(R.id.add_class);
-        mBase = FirebaseDatabase.getInstance().getReference("Classrooms");
+        classKey = getIntent().getExtras().getString("classKey");
+
+        classroomKey.setText(classKey);
+
+        mBase = FirebaseDatabase.getInstance().getReference().child("Classrooms").child(classKey).child("Topics");
         mBase.keepSynced(true);
         contentRecycler = (RecyclerView)findViewById(R.id.contentRecycler);
-        emptyClassroom = findViewById(R.id.emptyClassroom);
-
+        emptyTopics = findViewById(R.id.emptyTopics); // emptyClassroom id
         contentRecycler.setHasFixedSize(true);
         contentRecycler.setLayoutManager(new LinearLayoutManager(this));
         contentRecycler.setItemAnimator(new DefaultItemAnimator());
 
 
-        mBase.addValueEventListener(new ValueEventListener() {
+        mBase.addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                classroomList = new ArrayList<>();
+                classList = new ArrayList<>();
                 if(snapshot.getChildrenCount() <= 0) {
-                    emptyClassroom.setVisibility(View.VISIBLE);
+                    emptyTopics.setVisibility(View.VISIBLE);
                 } else {
-                    emptyClassroom.setVisibility(View.GONE);
+                    emptyTopics.setVisibility(View.GONE);
                 }
 
 
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    //Classroom classroom = dataSnapshot.getValue(Classroom.class);
-                    String classKey = dataSnapshot.getKey();
-                    String className = dataSnapshot.child("className").getValue().toString();
-                    String subjectName = dataSnapshot.child("subjectName").getValue().toString();
-                    String teacherName = dataSnapshot.child("teacherName").getValue().toString();
-                    classroomList.add(new Classroom(className, subjectName, teacherName, classKey));
+                    String key = dataSnapshot.getKey();
+                    String topic = dataSnapshot.child("topicName").getValue().toString();
+                    String desc = dataSnapshot.child("topicDescription").getValue().toString();
+                    String date = dataSnapshot.child("date").getValue().toString();
+                    classList.add(new Topic(key,topic,desc,date));
                 }
-                //Collections.sort(classroomList,Collections.reverseOrder());
-                classroomAdapter = new ClassroomAdapter(MainActivity.this,classroomList);
-                contentRecycler.setAdapter(classroomAdapter);
-                classroomAdapter.notifyDataSetChanged();
+                topicAdapter = new TopicAdapter(TopicMain.this,classList);
+                contentRecycler.setAdapter(topicAdapter);
+                topicAdapter.notifyDataSetChanged();
+
+
+               // Date currentTime = Calendar.getInstance().getTime();
             }
 
             @Override
@@ -86,14 +93,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        add_class.setOnClickListener(new View.OnClickListener() {
+        add_topic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, AddClassroom.class));
+                Intent intent = new Intent( TopicMain.this,AddTopic.class);
+                intent.putExtra("classKey", classKey);
+                startActivity(intent);
             }
         });
-
-
 
     }
 
@@ -102,26 +109,31 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
-//3 dot Menu on top right corner
+    //3 dot Menu on top right corner
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-//on click action on menu options(About and Logout)
+    //on click action on menu options(About and Logout)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+
+            case R.id.student_list:
+                startActivity(new Intent(TopicMain.this, ClassStudentList.class));
+                break;
             case R.id.about:
-                startActivity(new Intent(MainActivity.this, about_us.class));
+                startActivity(new Intent(TopicMain.this, about_us.class));
                 break;
             case R.id.logOut:
                 FirebaseAuth.getInstance().signOut();
-                Toast.makeText(MainActivity.this, "Logged out", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                Toast.makeText(TopicMain.this, "Logged out", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(TopicMain.this, LoginActivity.class));
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
+
     }
 }

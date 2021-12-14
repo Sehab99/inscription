@@ -4,11 +4,14 @@ public class Classroom {
     private String className;
     private String subjectName;
     private String teacherName;
+    private String classKey;
 
-    public Classroom(String className, String subjectName, String teacherName) {
+
+    public Classroom(String className, String subjectName, String teacherName, String classKey) {
         this.className = className;
         this.subjectName = subjectName;
         this.teacherName = teacherName;
+        this.classKey = classKey;
     }
 
     public Classroom() {
@@ -37,5 +40,13 @@ public class Classroom {
 
     public void setTeacherName(String teacherName) {
         this.teacherName = teacherName;
+    }
+
+    public void setClassKey(String classKey) {
+        this.classKey = classKey;
+    }
+
+    public String getClassKey() {
+        return classKey;
     }
 }
