@@ -6,11 +6,15 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +38,7 @@ public class TopicMain extends AppCompatActivity {
     ArrayList<Topic> classList;
     TextView emptyTopics;
     TextView classroomKey;
+    Button buttonCopy;
 
     String classKey;
     //FirebaseAuth auth;
@@ -47,6 +52,7 @@ public class TopicMain extends AppCompatActivity {
         setContentView(R.layout.activity_topic_main);
         add_topic = findViewById(R.id.add_topic); // floating button
         classroomKey = findViewById(R.id.classroomKey);
+        buttonCopy = findViewById(R.id.buttonCopy);
 
         classKey = getIntent().getExtras().getString("classKey");
 
@@ -90,6 +96,17 @@ public class TopicMain extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        buttonCopy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("Classroom Key", classroomKey.getText().toString());
+                clipboard.setPrimaryClip(clip);
+                clip.getDescription();
+                Toast.makeText(TopicMain.this, "Copied", Toast.LENGTH_SHORT).show();
             }
         });
 
