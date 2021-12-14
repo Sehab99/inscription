@@ -11,8 +11,8 @@
         android:id="@+id/emptyTopics"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_gravity="center"
         android:visibility="gone"
         android:text="No Topic Added"
         android:textSize="20dp"/>
@@ -21,9 +21,17 @@
             android:id="@+id/classroomKey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             android:text="Classroom Key"
-            android:textSize="30dp" />
+            android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/buttonCopy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:text="Copy"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/contentRecycler"
