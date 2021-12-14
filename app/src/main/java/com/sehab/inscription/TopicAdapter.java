@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +34,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ClassroomVie
     public void onBindViewHolder(@NonNull ClassroomViewHolder holder, int position) {
         Topic topic = topicArrayList.get(position);
         holder.TopicName.setText(topic.getTopicName());
-        holder.Description.setText(topic.getTopicDescription());
+        holder.Description.setText(topic.getCode());
         holder.date.setText(topic.getDate());
     }
 
@@ -54,7 +53,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ClassroomVie
         public ClassroomViewHolder(@NonNull View itemView) {
             super(itemView);
             TopicName = itemView.findViewById(R.id.topicName);
-            Description = itemView.findViewById(R.id.descName);
+            Description = itemView.findViewById(R.id.code);
             date = itemView.findViewById(R.id.date);
 
 

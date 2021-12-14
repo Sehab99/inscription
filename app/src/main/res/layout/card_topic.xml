@@ -11,47 +11,46 @@
     <RelativeLayout
         android:id="@+id/classroomCard"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="160dp"
         android:background="@drawable/classroom_background">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="160dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="15dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/topicName"
-                android:layout_width="141dp"
+                android:id="@+id/date"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-
+                android:layout_marginRight="60dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="18dp"
-                android:text="Topic Name"
-                android:textColor="@color/black"
-                android:textSize="18dp" />
+                android:layout_marginTop="7dp"
+                android:text="Date"
+                android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/descName"
-                android:layout_width="259dp"
-                android:layout_height="34dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="18dp"
-                android:text="Details"
+                android:id="@+id/topicName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Topic Name"
                 android:textColor="@color/black"
-                android:textSize="10dp" />
-        </LinearLayout>
+                android:textSize="25dp" />
 
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="67dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="7dp"
-            android:text="Date"
-            android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="25dp"
+                android:text="Code"
+                android:textColor="@color/black"
+                android:textSize="25dp" />
+        </LinearLayout>
 
     </RelativeLayout>
 

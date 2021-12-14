@@ -3,13 +3,13 @@ package com.sehab.inscription;
 public class Topic {
     private String key;
     private String topicName;
-    private String topicDescription;
+    private String code;
     private String date;
 
-    public Topic(String key, String topicName, String topicDescription, String date) {
+    public Topic(String key, String topicName, String code, String date) {
         this.key = key;
         this.topicName = topicName;
-        this.topicDescription = topicDescription;
+        this.code = code;
         this.date = date;
     }
 
@@ -29,12 +29,12 @@ public class Topic {
         this.topicName = topicName;
     }
 
-    public String getTopicDescription() {
-        return topicDescription;
+    public String getCode() {
+        return code;
     }
 
-    public void setTopicDescription(String topicDescription) {
-        this.topicDescription = topicDescription;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDate() {
