@@ -128,7 +128,7 @@ public class TopicMain extends AppCompatActivity {
 
     //3 dot Menu on top right corner
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
+        getMenuInflater().inflate(R.menu.main2,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -139,6 +139,9 @@ public class TopicMain extends AppCompatActivity {
 
             case R.id.student_list:
                 startActivity(new Intent(TopicMain.this, ClassStudentList.class));
+                break;
+            case R.id.StudentTopic:
+                startActivity(new Intent(TopicMain.this, StudentTopic.class));
                 break;
             case R.id.about:
                 startActivity(new Intent(TopicMain.this, about_us.class));

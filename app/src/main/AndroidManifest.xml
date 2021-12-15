@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Inscription">
         <activity
+            android:name=".StudentTopic"
+            android:exported="false" />
+        <activity
             android:name=".ClassStudentList"
             android:exported="false" />
         <activity
