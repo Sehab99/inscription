@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,6 +21,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String[] ITEMS = new String[] {"Teacher", "Student"};
+    private Spinner userDropdown;
     private TextInputLayout textInputUsername;
     private TextInputLayout textInputLoginPassword;
     private Button buttonForgotPassword;
@@ -38,6 +42,11 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonToSignUp = findViewById(R.id.buttonToSignUp);
         firebaseAuth = FirebaseAuth.getInstance();
+
+        userDropdown = (Spinner) findViewById(R.id.userDropdown);
+        ArrayAdapter<String> userAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS);
+        userAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userDropdown.setAdapter(userAdapter);
 
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override

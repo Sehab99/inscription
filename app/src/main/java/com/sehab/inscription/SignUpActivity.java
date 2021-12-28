@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
+    private static final String[] ITEMS = new String[] {"Teacher", "Student"};
+    private Spinner userDropdown;
     private TextInputLayout textInputEmail;
     private TextInputLayout textInputName;
     private TextInputLayout textInputRegID;
@@ -32,6 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     HashMap<String, Object> userData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,12 @@ public class SignUpActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference().child("Users");
         userData = new HashMap<>();
+
+        userDropdown = (Spinner) findViewById(R.id.userDropdown);
+        ArrayAdapter<String> userAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS);
+        userAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userDropdown.setAdapter(userAdapter);
+        //userDropdown.setOnItemSelectedListener(this);
 
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override

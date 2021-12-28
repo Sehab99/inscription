@@ -23,7 +23,7 @@
                 android:id="@+id/className"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="7dp"
                 android:text="Class Name"
                 android:textColor="@color/black" />
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="55dp"
+                android:layout_marginTop="50dp"
                 android:text="Teacher Name"
                 android:textColor="@color/black"
                 android:textSize="15dp" />
