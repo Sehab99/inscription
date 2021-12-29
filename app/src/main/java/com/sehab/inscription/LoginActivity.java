@@ -19,6 +19,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String[] ITEMS = new String[] {"Teacher", "Student"};
@@ -29,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonLogin;
     private Button buttonToSignUp;
     private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin = findViewById(R.id.buttonLogin);
         buttonToSignUp = findViewById(R.id.buttonToSignUp);
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        userRef = firebaseDatabase.getReference().child("Users");
 
         userDropdown = (Spinner) findViewById(R.id.userDropdown);
         ArrayAdapter<String> userAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, ITEMS);
@@ -84,9 +93,37 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
+                    String type = userDropdown.getSelectedItem().toString();
+                    userRef.child(task.getResult().getUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String user_type =  snapshot.child("Type").getValue().toString();
+                            if (type.equals("Student")) {
+                                if (user_type.equals(type)) {
+                                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(LoginActivity.this, MainActivityStudent.class));
+                                    finish();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "This user is not a student", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                if (user_type.equals(type)) {
+                                    Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    finish();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "This user is not a teacher", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                 } else {
                     Toast.makeText(LoginActivity.this, "Wrong credential", Toast.LENGTH_SHORT).show();
                 }

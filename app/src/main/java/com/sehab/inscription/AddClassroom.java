@@ -30,6 +30,7 @@ public class AddClassroom extends AppCompatActivity {
     FirebaseAuth auth;
     DatabaseReference mBase;
     HashMap<String, Object> newClass;
+    HashMap<String,Object> userTree;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,9 @@ public class AddClassroom extends AppCompatActivity {
                             newClass.put("className", className);
                             newClass.put("subjectName", subjectName);
                             newClass.put("teacherName", teacherName);
-                            addClassroom();
+                            userTree = new HashMap<>();
+
+                            addClassroom(uID,className);
                         }
                     }
                     @Override
@@ -72,17 +75,33 @@ public class AddClassroom extends AppCompatActivity {
 
     }
 
-    private void addClassroom() {
+    private void addClassroom(String uid,String className) {
 
         DatabaseReference classID = mBase.push();
         String classroomID = classID.getKey();
+
+        HashMap<String, Object> tempMap = new HashMap<>();
+        tempMap.put("className",className);
+        userTree.put(classroomID,tempMap);
+
+
         mBase.child("Classrooms").child(classroomID).updateChildren(newClass).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
-                    Toast.makeText(AddClassroom.this, classroomID, Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(AddClassroom.this, MainActivity.class));
-                    finish();
+                    mBase.child("Users").child(uid).child("Classroom").updateChildren(userTree).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task1) {
+                            if (task1.isSuccessful()) {
+                                Toast.makeText(AddClassroom.this, classroomID, Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(AddClassroom.this, MainActivity.class));
+                                finish();
+                            }  else {
+                                Toast.makeText(AddClassroom.this, "Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
                 } else {
                     Toast.makeText(AddClassroom.this, "Failed", Toast.LENGTH_SHORT).show();
                 }

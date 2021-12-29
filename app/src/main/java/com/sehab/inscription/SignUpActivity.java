@@ -65,6 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String type = userDropdown.getSelectedItem().toString();
                 String email = textInputEmail.getEditText().getText().toString();
                 String fullName = textInputName.getEditText().getText().toString();
                 String regID = textInputRegID.getEditText().getText().toString();
@@ -82,6 +83,7 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
                     userData.put("Email", email);
                     userData.put("Name", fullName);
+                    userData.put("Type", type);
                     userData.put("Reg ID", regID);
                     signUpUser(email, password);
                 }

@@ -138,7 +138,9 @@ public class TopicMain extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.student_list:
-                startActivity(new Intent(TopicMain.this, ClassStudentList.class));
+                Intent intent = new Intent(TopicMain.this, ClassStudentList.class);
+                intent.putExtra("classCode",classKey);
+                startActivity(intent);
                 break;
             case R.id.StudentTopic:
                 startActivity(new Intent(TopicMain.this, StudentTopic.class));
