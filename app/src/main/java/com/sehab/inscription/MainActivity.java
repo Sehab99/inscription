@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference mBase;
     ClassroomAdapter classroomAdapter;
     ArrayList<Classroom> classroomList;
+    FirebaseAuth auth;
+    String uid;
     TextView emptyClassroom;
+    int count = 0;
 
     public MainActivity() {
 
@@ -45,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         add_class = findViewById(R.id.add_class);
-        mBase = FirebaseDatabase.getInstance().getReference("Classrooms");
+        auth = FirebaseAuth.getInstance();
+        uid = auth.getUid().toString();
+        mBase = FirebaseDatabase.getInstance().getReference("Users").child(uid).child("Classroom");
         mBase.keepSynced(true);
         contentRecycler = (RecyclerView)findViewById(R.id.contentRecycler);
         emptyClassroom = findViewById(R.id.emptyClassroom);
@@ -55,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         contentRecycler.setItemAnimator(new DefaultItemAnimator());
 
 
-        mBase.addValueEventListener(new ValueEventListener() {
+        mBase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 classroomList = new ArrayList<>();
@@ -65,19 +71,42 @@ public class MainActivity extends AppCompatActivity {
                     emptyClassroom.setVisibility(View.GONE);
                 }
 
+                DatabaseReference classRef = FirebaseDatabase.getInstance().getReference("Classrooms");
 
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                for(DataSnapshot classSnap : snapshot.getChildren()) {
                     //Classroom classroom = dataSnapshot.getValue(Classroom.class);
-                    String classKey = dataSnapshot.getKey();
-                    String className = dataSnapshot.child("className").getValue().toString();
-                    String subjectName = dataSnapshot.child("subjectName").getValue().toString();
-                    String teacherName = dataSnapshot.child("teacherName").getValue().toString();
-                    classroomList.add(new Classroom(className, subjectName, teacherName, classKey));
+                    String classKey = classSnap.getKey();
+                    classRef.child(classKey).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String className = dataSnapshot.child("className").getValue().toString();
+                            String subjectName = dataSnapshot.child("subjectName").getValue().toString();
+                            String teacherName = dataSnapshot.child("teacherName").getValue().toString();
+                            classroomList.add(new Classroom(className, subjectName, teacherName, classKey));
+
+                            count++;
+                            Log.i("Teacher_Home_Count", String.valueOf(count));
+                            Log.i("Teacher_Home_Total", String.valueOf(snapshot.getChildrenCount()));
+                            if (count>=snapshot.getChildrenCount()) {
+                                Log.i("Teacher_Home_", String.valueOf(classroomList));
+                                //Collections.sort(classroomList,Collections.reverseOrder());
+                                classroomAdapter = new ClassroomAdapter(MainActivity.this, classroomList);
+                                contentRecycler.setAdapter(classroomAdapter);
+                                classroomAdapter.notifyDataSetChanged();
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+
+                    });
+
                 }
-                //Collections.sort(classroomList,Collections.reverseOrder());
-                classroomAdapter = new ClassroomAdapter(MainActivity.this,classroomList);
-                contentRecycler.setAdapter(classroomAdapter);
-                classroomAdapter.notifyDataSetChanged();
+
             }
 
             @Override

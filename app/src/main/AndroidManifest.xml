@@ -10,13 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Inscription">
         <activity
+            android:name=".TopicStudentList"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivityStudent"
+            android:exported="false" />
+        <activity
+            android:name=".StudentTopic"
+            android:exported="false" />
+        <activity
             android:name=".ClassStudentList"
             android:exported="false" />
         <activity
             android:name=".AddTopic"
-            android:exported="false" />
-        <activity
-            android:name=".mainClass"
             android:exported="false" />
         <activity
             android:name=".AddClassroom"
