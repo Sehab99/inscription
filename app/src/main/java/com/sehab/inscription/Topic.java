@@ -4,13 +4,23 @@ public class Topic {
     private String key;
     private String topicName;
     private String code;
+    private String status;
     private String date;
 
-    public Topic(String key, String topicName, String code, String date) {
+    public Topic(String key, String topicName, String code, String status, String date) {
         this.key = key;
         this.topicName = topicName;
         this.code = code;
+        this.status = status;
         this.date = date;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getKey() {

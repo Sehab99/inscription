@@ -33,15 +33,15 @@ import java.util.Date;
 public class TopicMain extends AppCompatActivity {
     FloatingActionButton add_topic;
     RecyclerView contentRecycler;
-    DatabaseReference mBase;
+    DatabaseReference mBase,userRef;
     TopicAdapter topicAdapter;
     ArrayList<Topic> classList;
     TextView emptyTopics;
     TextView classroomKey;
     Button buttonCopy;
 
-    String classKey;
-    //FirebaseAuth auth;
+    String classKey,uid,type,uname;
+    FirebaseAuth auth;
     public TopicMain() {
 
     }
@@ -58,6 +58,12 @@ public class TopicMain extends AppCompatActivity {
 
         classroomKey.setText(classKey);
 
+        auth = FirebaseAuth.getInstance();
+        uid = auth.getUid();
+
+        userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+
+
         mBase = FirebaseDatabase.getInstance().getReference().child("Classrooms").child(classKey).child("Topics");
         mBase.keepSynced(true);
         contentRecycler = (RecyclerView)findViewById(R.id.contentRecycler);
@@ -67,30 +73,64 @@ public class TopicMain extends AppCompatActivity {
         contentRecycler.setItemAnimator(new DefaultItemAnimator());
 
 
-        mBase.addValueEventListener(new ValueEventListener(){
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                classList = new ArrayList<>();
-                if(snapshot.getChildrenCount() <= 0) {
-                    emptyTopics.setVisibility(View.VISIBLE);
+
+                type = snapshot.child("Type").getValue().toString();
+                uname = snapshot.child("Name").getValue().toString();
+
+                if (type.equalsIgnoreCase("student")) {
+                    add_topic.setVisibility(View.GONE);
                 } else {
-                    emptyTopics.setVisibility(View.GONE);
+                    add_topic.setVisibility(View.VISIBLE);
                 }
 
 
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String key = dataSnapshot.getKey();
-                    String topic = dataSnapshot.child("topicName").getValue().toString();
-                    String desc = dataSnapshot.child("code").getValue().toString();
-                    String date = dataSnapshot.child("date").getValue().toString();
-                    classList.add(new Topic(key,topic,desc,date));
-                }
-                topicAdapter = new TopicAdapter(TopicMain.this,classList);
-                contentRecycler.setAdapter(topicAdapter);
-                topicAdapter.notifyDataSetChanged();
+                mBase.addValueEventListener(new ValueEventListener(){
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        classList = new ArrayList<>();
+                        if(snapshot.getChildrenCount() <= 0) {
+                            emptyTopics.setVisibility(View.VISIBLE);
+                        } else {
+                            emptyTopics.setVisibility(View.GONE);
+                        }
 
 
-               // Date currentTime = Calendar.getInstance().getTime();
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            String key = dataSnapshot.getKey();
+                            String status = "";
+                            String topic = dataSnapshot.child("topicName").getValue().toString();
+                            String desc = dataSnapshot.child("code").getValue().toString();
+                            String date = dataSnapshot.child("date").getValue().toString();
+                            DataSnapshot userSnap = dataSnapshot.child("Present").child(uid);
+                            if (type.equalsIgnoreCase("Student")) {
+                                if (userSnap.getChildrenCount() > 0) {
+                                    status = "Present";
+                                } else {
+                                    status = "Attendance not marked";
+                                }
+
+                            }
+
+                            classList.add(new Topic(key,topic,desc,status,date));
+                        }
+                        topicAdapter = new TopicAdapter(TopicMain.this,classList,type,classKey,uname);
+                        contentRecycler.setAdapter(topicAdapter);
+                        topicAdapter.notifyDataSetChanged();
+
+
+                        // Date currentTime = Calendar.getInstance().getTime();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
             }
 
             @Override
@@ -98,6 +138,7 @@ public class TopicMain extends AppCompatActivity {
 
             }
         });
+
 
         buttonCopy.setOnClickListener(new View.OnClickListener() {
             @Override

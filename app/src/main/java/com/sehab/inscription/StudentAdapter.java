@@ -15,9 +15,16 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
     ArrayList<StudentModel> studentList;
     Context context;
+    boolean topic = false;
     StudentAdapter(ArrayList<StudentModel> studentList,Context context) {
         this.studentList = studentList;
         this.context = context;
+    }
+
+    StudentAdapter(ArrayList<StudentModel> studentList,Context context,boolean topic) {
+        this.studentList = studentList;
+        this.context = context;
+        this.topic = topic;
     }
     @NonNull
     @Override
@@ -31,6 +38,12 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
         StudentModel student = studentList.get(position);
         holder.studentText.setText(student.getName());
+        if (topic) {
+            holder.statusText.setVisibility(View.VISIBLE);
+            holder.statusText.setText(student.getStatus());
+        } else {
+            holder.statusText.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -40,10 +53,11 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
     class StudentViewHolder extends RecyclerView.ViewHolder {
 
-        TextView studentText;
+        TextView studentText,statusText;
         public StudentViewHolder(@NonNull View itemView) {
             super(itemView);
             studentText = itemView.findViewById(R.id.student_name);
+            statusText = itemView.findViewById(R.id.status);
         }
     }
 }
