@@ -1,5 +1,6 @@
 package com.sehab.inscription;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,13 +35,21 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         return viewHolder;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
         StudentModel student = studentList.get(position);
         holder.studentText.setText(student.getName());
         if (topic) {
             holder.statusText.setVisibility(View.VISIBLE);
+            holder.dnt.setVisibility(View.VISIBLE);
+            holder.dnt.setText(student.getDnt());
+
             holder.statusText.setText(student.getStatus());
+            String abs = student.getStatus();
+            if(abs == "Absent"){
+                holder.statusText.setTextColor(android.graphics.Color.RED);
+            }
         } else {
             holder.statusText.setVisibility(View.GONE);
         }
@@ -53,11 +62,12 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
 
     class StudentViewHolder extends RecyclerView.ViewHolder {
 
-        TextView studentText,statusText;
+        TextView studentText, statusText, dnt;
         public StudentViewHolder(@NonNull View itemView) {
             super(itemView);
             studentText = itemView.findViewById(R.id.student_name);
             statusText = itemView.findViewById(R.id.status);
+            dnt = itemView.findViewById(R.id.dnt);
         }
     }
 }

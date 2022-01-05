@@ -33,7 +33,7 @@ import java.util.Date;
 public class TopicMain extends AppCompatActivity {
     FloatingActionButton add_topic;
     RecyclerView contentRecycler;
-    DatabaseReference mBase,userRef;
+    DatabaseReference mBase,userRef, actionBar;
     TopicAdapter topicAdapter;
     ArrayList<Topic> classList;
     TextView emptyTopics;
@@ -50,6 +50,8 @@ public class TopicMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_main);
+        getSupportActionBar().setTitle("Topic List");
+
         add_topic = findViewById(R.id.add_topic); // floating button
         classroomKey = findViewById(R.id.classroomKey);
         buttonCopy = findViewById(R.id.buttonCopy);
@@ -71,6 +73,7 @@ public class TopicMain extends AppCompatActivity {
         contentRecycler.setHasFixedSize(true);
         contentRecycler.setLayoutManager(new LinearLayoutManager(this));
         contentRecycler.setItemAnimator(new DefaultItemAnimator());
+
 
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -109,7 +112,7 @@ public class TopicMain extends AppCompatActivity {
                                 if (userSnap.getChildrenCount() > 0) {
                                     status = "Present";
                                 } else {
-                                    status = "Attendance not marked";
+                                    status = "Absent";
                                 }
 
                             }
@@ -177,18 +180,16 @@ public class TopicMain extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.about:
+                startActivity(new Intent(TopicMain.this, about_us.class));
+                break;
 
             case R.id.student_list:
                 Intent intent = new Intent(TopicMain.this, ClassStudentList.class);
                 intent.putExtra("classCode",classKey);
                 startActivity(intent);
                 break;
-            case R.id.StudentTopic:
-                startActivity(new Intent(TopicMain.this, StudentTopic.class));
-                break;
-            case R.id.about:
-                startActivity(new Intent(TopicMain.this, about_us.class));
-                break;
+
             case R.id.logOut:
                 FirebaseAuth.getInstance().signOut();
                 Toast.makeText(TopicMain.this, "Logged out", Toast.LENGTH_SHORT).show();

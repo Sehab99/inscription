@@ -15,9 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class TopicStudentList extends AppCompatActivity {
+public class TeacherAttendanceList extends AppCompatActivity {
 
     RecyclerView studentRecycler;
     DatabaseReference mBase;
@@ -31,6 +30,8 @@ public class TopicStudentList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_student_list);
+        getSupportActionBar().setTitle("Attendance List");
+
         classCode = getIntent().getStringExtra("classCode");
         topicCode = getIntent().getStringExtra("topicCode");
 
@@ -51,7 +52,7 @@ public class TopicStudentList extends AppCompatActivity {
                 for (DataSnapshot userSnap : snapshot.child("Topics").child(topicCode).child("Present").getChildren()) {
                     String code = userSnap.getKey();
                     presentList.add(code);
-//                    String name = userSnap.child("name").getValue().toString();
+//                  String name = userSnap.child("name").getValue().toString();
 
                 }
                 for (DataSnapshot userSnap : snapshot.child("Students").getChildren()) {
@@ -61,12 +62,12 @@ public class TopicStudentList extends AppCompatActivity {
                     if (presentList.contains(key)) {
                         status = "Present";
                     } else {
-                        status = "Not Updated";
+                        status = "Absent";
                     }
 
                     studentList.add(new StudentModel(key,name,status));
                 }
-                adapter = new StudentAdapter(studentList,TopicStudentList.this,true);
+                adapter = new StudentAdapter(studentList, TeacherAttendanceList.this,true);
                 studentRecycler.setAdapter(adapter);
             }
 

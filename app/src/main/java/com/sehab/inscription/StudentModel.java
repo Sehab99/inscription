@@ -1,7 +1,10 @@
 package com.sehab.inscription;
 
 public class StudentModel {
-    String code,name,status;
+    String code;
+    String name;
+    String status;
+    String dnt;
 
     public StudentModel(String code, String name, String status) {
         this.code = code;
@@ -13,6 +16,10 @@ public class StudentModel {
         this.code = code;
         this.name = name;
     }
+
+    public String getDnt() { return dnt; }
+
+    public void setDnt(String dnt) { this.dnt = dnt; }
 
     public String getStatus() {
         return status;

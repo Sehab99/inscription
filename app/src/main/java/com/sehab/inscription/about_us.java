@@ -8,10 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Calendar;
 
-import mehdi.sakout.aboutpage.AboutPage;
-import mehdi.sakout.aboutpage.Element;
 
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
@@ -25,6 +22,7 @@ public class about_us extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
+        getSupportActionBar().setTitle("About Us");
 
         setupHyperlink();
     }

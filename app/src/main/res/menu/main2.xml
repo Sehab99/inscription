@@ -2,20 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/student_list"
-        android:title="Student List"
-        app:showAsAction="never"
-        android:orderInCategory="100"/>
-    <item
-        android:id="@+id/StudentTopic"
-        android:title="Attendence"
+        android:id="@+id/about"
+        android:title="About"
         android:orderInCategory="101"
         app:showAsAction="never" />
     <item
-        android:id="@+id/about"
-        android:title="About"
-        android:orderInCategory="102"
-        app:showAsAction="never" />
+        android:id="@+id/student_list"
+        android:title="Student List"
+        app:showAsAction="never"
+        android:orderInCategory="102"/>
     <item
         android:id="@+id/logOut"
         android:title="Log out"

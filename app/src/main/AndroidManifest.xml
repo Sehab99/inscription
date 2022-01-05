@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Inscription">
         <activity
-            android:name=".TopicStudentList"
+            android:name=".TeacherAttendanceList"
             android:exported="false" />
         <activity
             android:name=".MainActivityStudent"

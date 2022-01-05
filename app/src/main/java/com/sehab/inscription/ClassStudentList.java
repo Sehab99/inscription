@@ -29,6 +29,7 @@ public class ClassStudentList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_student_list);
+        getSupportActionBar().setTitle("Student List");
 
         classCode = getIntent().getStringExtra("classCode");
         

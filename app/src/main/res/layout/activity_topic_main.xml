@@ -31,7 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:text="Copy"/>
+        android:text="Copy"
+        android:layout_marginRight="10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/contentRecycler"

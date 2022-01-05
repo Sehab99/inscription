@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -72,7 +73,7 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ClassroomVie
             holder.topicCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context,TopicStudentList.class);
+                    Intent intent = new Intent(context, TeacherAttendanceList.class);
                     intent.putExtra("classCode",classkey);
                     intent.putExtra("topicCode",topic.getKey());
                     context.startActivity(intent);
@@ -121,7 +122,12 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ClassroomVie
         String uid = FirebaseAuth.getInstance().getUid();
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Classrooms").child(classkey).child("Topics").child(topic.getKey()).child("Present").child(uid);
         HashMap<String,Object> hashMap = new HashMap<>();
-        hashMap.put("time", Calendar.getInstance().getTime());
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        String time = sdf.format(calendar.getTime());
+
+        hashMap.put("time", time);
         hashMap.put("name",uname);
         databaseReference.updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -132,7 +138,6 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ClassroomVie
                     Toast.makeText(context, "Cannot mark as present", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     @Override
@@ -147,17 +152,12 @@ public class TopicAdapter extends RecyclerView.Adapter<TopicAdapter.ClassroomVie
         TextView Description;
         TextView date;
 
-
         public ClassroomViewHolder(@NonNull View itemView) {
             super(itemView);
             TopicName = itemView.findViewById(R.id.topicName);
             Description = itemView.findViewById(R.id.code);
             topicCard = itemView.findViewById(R.id.topicCard);
             date = itemView.findViewById(R.id.date);
-
-
         }
-
-
     }
 }

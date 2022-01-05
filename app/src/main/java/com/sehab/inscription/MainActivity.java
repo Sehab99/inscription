@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setTitle("Classroom List");
 
         add_class = findViewById(R.id.add_class);
         auth = FirebaseAuth.getInstance();
