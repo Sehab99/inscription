@@ -2,43 +2,49 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".TopicMain"
-    android:background="@color/grey">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey"
+    tools:context=".TopicMain">
 
     <TextView
         android:id="@+id/emptyTopics"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
         android:layout_gravity="center"
-        android:visibility="gone"
+        android:layout_marginTop="25dp"
         android:text="No Topic Added"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/classroomKey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:text="Classroom Key"
-            android:textSize="20dp" />
+    <TextView
+        android:id="@+id/classroomKey"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Classroom Key"
+        android:textSize="20dp" />
 
     <Button
         android:id="@+id/buttonCopy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:text="Copy"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp"
+        android:text="Copy" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/contentRecycler"
-            android:layout_marginTop="50dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/con"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/contentRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -50,9 +56,22 @@
         android:layout_marginBottom="30dp"
         android:backgroundTint="@color/purple_500"
         android:clickable="true"
-        app:srcCompat="@drawable/ic_add_classroom"
         app:borderWidth="0dp"
-        app:elevation="20dp"/>
+        app:elevation="20dp"
+        app:srcCompat="@drawable/ic_add_classroom" />
+
+
+    <Button
+        android:id="@+id/attendStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="-6dp"
+        android:text="Attendance Status"
+        android:visibility="gone"
+        android:textSize="16dp"
+        android:paddingVertical="10dp"/>
+
 
 
 </FrameLayout>

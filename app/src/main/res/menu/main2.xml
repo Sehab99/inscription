@@ -11,16 +11,16 @@
         android:title="Student List"
         app:showAsAction="never"
         android:orderInCategory="102"/>
-    <item
+    <!--item
         android:id="@+id/AttendanceStatus"
         android:title="Attendance Status"
-        android:orderInCategory="104"
-        app:showAsAction="never" />
+        android:orderInCategory="103"
+        app:showAsAction="never" /-->
     <item
         android:id="@+id/logOut"
         android:title="Log out"
         app:showAsAction="never"
-        android:orderInCategory="103"/>
+        android:orderInCategory="104"/>
 
 
 </menu>

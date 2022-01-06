@@ -36,6 +36,7 @@ public class AddClassroom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_classroom);
+        getSupportActionBar().setTitle("Create Classroom");
 
         textInputClassName = findViewById(R.id.textClassName);
         textInputSubjectName = findViewById(R.id.textSubjectName);

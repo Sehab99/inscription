@@ -40,6 +40,7 @@ public class AddTopic extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_topic);
+        getSupportActionBar().setTitle("Create Topic");
 
         classKey = getIntent().getExtras().getString("classKey");
         topicName = findViewById(R.id.textTopicName);

@@ -47,13 +47,9 @@ public class TeacherAttendanceList extends AppCompatActivity {
         mBase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-
-
                 presentList = new ArrayList<>();
                 for (DataSnapshot userSnap : snapshot.child("Topics").child(topicCode).child("Present").getChildren()) {
                     String code = userSnap.getKey();
-
                     presentList.add(code);
                 }
                 for (DataSnapshot userSnap : snapshot.child("Students").getChildren()) {

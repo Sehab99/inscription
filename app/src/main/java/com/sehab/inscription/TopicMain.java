@@ -38,7 +38,7 @@ public class TopicMain extends AppCompatActivity {
     ArrayList<Topic> classList;
     TextView emptyTopics;
     TextView classroomKey;
-    Button buttonCopy;
+    Button buttonCopy, attendStatus;
      public int p=0,c=0;
     String classKey,uid,type,uname;
     FirebaseAuth auth;
@@ -55,6 +55,7 @@ public class TopicMain extends AppCompatActivity {
         add_topic = findViewById(R.id.add_topic); // floating button
         classroomKey = findViewById(R.id.classroomKey);
         buttonCopy = findViewById(R.id.buttonCopy);
+        attendStatus = findViewById(R.id.attendStatus);
 
         classKey = getIntent().getExtras().getString("classKey");
 
@@ -82,11 +83,12 @@ public class TopicMain extends AppCompatActivity {
 
                 type = snapshot.child("Type").getValue().toString();
                 uname = snapshot.child("Name").getValue().toString();
-
                 if (type.equalsIgnoreCase("student")) {
                     add_topic.setVisibility(View.GONE);
+                    attendStatus.setVisibility(View.VISIBLE);
                 } else {
                     add_topic.setVisibility(View.VISIBLE);
+                    attendStatus.setVisibility(View.GONE);
                 }
 
 
@@ -117,7 +119,6 @@ public class TopicMain extends AppCompatActivity {
                                 } else {
                                     status = "Absent";
                                 }
-
                             }
 
                             classList.add(new Topic(key,topic,desc,status,date));
@@ -125,9 +126,6 @@ public class TopicMain extends AppCompatActivity {
                         topicAdapter = new TopicAdapter(TopicMain.this,classList,type,classKey,uname);
                         contentRecycler.setAdapter(topicAdapter);
                         topicAdapter.notifyDataSetChanged();
-
-
-                        // Date currentTime = Calendar.getInstance().getTime();
                     }
 
                     @Override
@@ -135,8 +133,6 @@ public class TopicMain extends AppCompatActivity {
 
                     }
                 });
-
-
             }
 
             @Override
@@ -166,6 +162,16 @@ public class TopicMain extends AppCompatActivity {
             }
         });
 
+        attendStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent2 = new Intent(TopicMain.this, AttendanceStatus.class);
+                intent2.putExtra("classes attended",String.valueOf(p));
+                intent2.putExtra("classes taken",String.valueOf(c));
+                startActivity(intent2);
+            }
+        });
+
     }
 
     @Override
@@ -192,16 +198,13 @@ public class TopicMain extends AppCompatActivity {
                 intent.putExtra("classCode",classKey);
                 startActivity(intent);
                 break;
-            case R.id.AttendanceStatus:
 
-                Intent intent2 = new Intent(TopicMain.this, AttendanceStatus.class);
-                //intent.putExtra("classCode",classKey);
-                intent2.putExtra("classes attended",String.valueOf(p));
-                intent2.putExtra("classes taken",String.valueOf(c));
-                startActivity(intent2);
-
-                break;
-
+//            case R.id.AttendanceStatus:
+//                Intent intent2 = new Intent(TopicMain.this, AttendanceStatus.class);
+//                intent2.putExtra("classes attended",String.valueOf(p));
+//                intent2.putExtra("classes taken",String.valueOf(c));
+//                startActivity(intent2);
+//                break;
 
             case R.id.logOut:
                 FirebaseAuth.getInstance().signOut();
@@ -211,6 +214,5 @@ public class TopicMain extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
-
     }
 }
