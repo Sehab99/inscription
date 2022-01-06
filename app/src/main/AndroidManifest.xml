@@ -16,7 +16,7 @@
             android:name=".MainActivityStudent"
             android:exported="false" />
         <activity
-            android:name=".StudentTopic"
+            android:name=".AttendanceStatus"
             android:exported="false" />
         <activity
             android:name=".ClassStudentList"

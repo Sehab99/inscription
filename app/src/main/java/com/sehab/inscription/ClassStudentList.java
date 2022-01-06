@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,7 +23,7 @@ public class ClassStudentList extends AppCompatActivity {
     RecyclerView studentRecycler;
     DatabaseReference mBase;
     String classCode;
-    
+    TextView emptyClassroom;
     StudentAdapter adapter;
     ArrayList<StudentModel> studentList;
 
@@ -32,7 +34,7 @@ public class ClassStudentList extends AppCompatActivity {
         getSupportActionBar().setTitle("Student List");
 
         classCode = getIntent().getStringExtra("classCode");
-        
+        emptyClassroom = findViewById(R.id.emptyClassroom);
         studentRecycler = findViewById(R.id.student_recycler);
         studentRecycler.setHasFixedSize(true);
         studentRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -45,7 +47,13 @@ public class ClassStudentList extends AppCompatActivity {
         mBase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getChildrenCount() <= 0) {
+                    emptyClassroom.setVisibility(View.VISIBLE);
+                } else {
+                    emptyClassroom.setVisibility(View.GONE);
+                }
                 for (DataSnapshot userSnap : snapshot.getChildren()) {
+
                     String key = userSnap.getKey();
                     String name = userSnap.child("studentName").getValue().toString();
                     studentList.add(new StudentModel(key,name));

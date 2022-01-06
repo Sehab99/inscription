@@ -5,6 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ClassStudentList">
+    <TextView
+        android:id="@+id/emptyClassroom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:text="Empty Classroom"
+        android:textSize="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/student_recycler"

@@ -39,7 +39,7 @@ public class TopicMain extends AppCompatActivity {
     TextView emptyTopics;
     TextView classroomKey;
     Button buttonCopy;
-
+     public int p=0,c=0;
     String classKey,uid,type,uname;
     FirebaseAuth auth;
     public TopicMain() {
@@ -93,6 +93,7 @@ public class TopicMain extends AppCompatActivity {
                 mBase.addValueEventListener(new ValueEventListener(){
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        p=0;c=0;
                         classList = new ArrayList<>();
                         if(snapshot.getChildrenCount() <= 0) {
                             emptyTopics.setVisibility(View.VISIBLE);
@@ -109,8 +110,10 @@ public class TopicMain extends AppCompatActivity {
                             String date = dataSnapshot.child("date").getValue().toString();
                             DataSnapshot userSnap = dataSnapshot.child("Present").child(uid);
                             if (type.equalsIgnoreCase("Student")) {
+                                c++;// class count
                                 if (userSnap.getChildrenCount() > 0) {
                                     status = "Present";
+                                    p++;//present count
                                 } else {
                                     status = "Absent";
                                 }
@@ -189,6 +192,16 @@ public class TopicMain extends AppCompatActivity {
                 intent.putExtra("classCode",classKey);
                 startActivity(intent);
                 break;
+            case R.id.AttendanceStatus:
+
+                Intent intent2 = new Intent(TopicMain.this, AttendanceStatus.class);
+                //intent.putExtra("classCode",classKey);
+                intent2.putExtra("classes attended",String.valueOf(p));
+                intent2.putExtra("classes taken",String.valueOf(c));
+                startActivity(intent2);
+
+                break;
+
 
             case R.id.logOut:
                 FirebaseAuth.getInstance().signOut();
