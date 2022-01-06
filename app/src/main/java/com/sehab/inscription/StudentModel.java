@@ -6,10 +6,11 @@ public class StudentModel {
     String status;
     String dnt;
 
-    public StudentModel(String code, String name, String status) {
+    public StudentModel(String code, String name, String status, String dnt) {
         this.code = code;
         this.name = name;
         this.status = status;
+        this.dnt = dnt;
     }
 
     public StudentModel(String code, String name) {

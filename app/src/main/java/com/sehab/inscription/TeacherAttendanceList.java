@@ -48,9 +48,12 @@ public class TeacherAttendanceList extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+
+
                 presentList = new ArrayList<>();
                 for (DataSnapshot userSnap : snapshot.child("Topics").child(topicCode).child("Present").getChildren()) {
                     String code = userSnap.getKey();
+
                     presentList.add(code);
 //                  String name = userSnap.child("name").getValue().toString();
 
@@ -58,14 +61,16 @@ public class TeacherAttendanceList extends AppCompatActivity {
                 for (DataSnapshot userSnap : snapshot.child("Students").getChildren()) {
                     String key = userSnap.getKey();
                     String name = userSnap.child("studentName").getValue().toString();
-                    String status = "";
+//                    String dnt = "date and time";
+                    String status = "",time ="";
                     if (presentList.contains(key)) {
+                        time = snapshot.child("Topics").child(topicCode).child("Present").child(key).child("time").getValue().toString();
                         status = "Present";
                     } else {
                         status = "Absent";
                     }
 
-                    studentList.add(new StudentModel(key,name,status));
+                    studentList.add(new StudentModel(key,name,status,time));
                 }
                 adapter = new StudentAdapter(studentList, TeacherAttendanceList.this,true);
                 studentRecycler.setAdapter(adapter);
