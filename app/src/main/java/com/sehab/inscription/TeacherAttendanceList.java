@@ -55,13 +55,10 @@ public class TeacherAttendanceList extends AppCompatActivity {
                     String code = userSnap.getKey();
 
                     presentList.add(code);
-//                  String name = userSnap.child("name").getValue().toString();
-
                 }
                 for (DataSnapshot userSnap : snapshot.child("Students").getChildren()) {
                     String key = userSnap.getKey();
                     String name = userSnap.child("studentName").getValue().toString();
-//                    String dnt = "date and time";
                     String status = "",time ="";
                     if (presentList.contains(key)) {
                         time = snapshot.child("Topics").child(topicCode).child("Present").child(key).child("time").getValue().toString();

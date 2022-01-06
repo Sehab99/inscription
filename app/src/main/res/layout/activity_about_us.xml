@@ -39,7 +39,7 @@
     <ImageView
         android:id="@+id/imageView8"
         android:layout_width="60dp"
-        android:layout_height="54dp"
+        android:layout_height="80dp"
         android:layout_marginTop="40dp"
         app:layout_constraintEnd_toStartOf="@+id/textView5"
         app:layout_constraintHorizontal_bias="0.559"
@@ -50,7 +50,7 @@
     <TextView
         android:id="@+id/textView5"
         android:layout_width="262dp"
-        android:layout_height="54dp"
+        android:layout_height="80dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/bg_about_us"
         android:text="@string/hyperlink1"
@@ -63,7 +63,7 @@
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="66dp"
-        android:layout_height="54dp"
+        android:layout_height="80dp"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toStartOf="@+id/textView6"
         app:layout_constraintHorizontal_bias="0.555"
@@ -74,7 +74,7 @@
     <TextView
         android:id="@+id/textView6"
         android:layout_width="262dp"
-        android:layout_height="54dp"
+        android:layout_height="80dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/bg_about_us"
         android:text="@string/hyperlink2"
@@ -87,7 +87,7 @@
     <ImageView
         android:id="@+id/imageView6"
         android:layout_width="67dp"
-        android:layout_height="54dp"
+        android:layout_height="80dp"
         android:layout_marginTop="30dp"
         app:layout_constraintEnd_toStartOf="@+id/textView7"
         app:layout_constraintHorizontal_bias="0.555"
@@ -98,7 +98,7 @@
     <TextView
         android:id="@+id/textView7"
         android:layout_width="261dp"
-        android:layout_height="54dp"
+        android:layout_height="80dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/bg_about_us"
         android:text="@string/hyperlink3"
@@ -112,7 +112,7 @@
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="63dp"
-        android:layout_height="54dp"
+        android:layout_height="80dp"
         android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textView8"
@@ -125,7 +125,7 @@
     <TextView
         android:id="@+id/textView8"
         android:layout_width="262dp"
-        android:layout_height="54dp"
+        android:layout_height="80dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/bg_about_us"
         android:text="@string/hyperlink4"
